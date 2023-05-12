@@ -19,7 +19,7 @@ import java.util.Locale;
 @Slf4j
 @Component
 public class ExcelUntils {
-	public  <T> ByteArrayInputStream writeToExcel(List<T> data) {
+	public static <T> ByteArrayInputStream writeToExcel(List<T> data) {
         ByteArrayOutputStream fos = null;
         XSSFWorkbook workbook = null;
         ByteArrayInputStream inputStream = null;

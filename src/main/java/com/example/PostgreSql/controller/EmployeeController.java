@@ -1,10 +1,17 @@
 package com.example.PostgreSql.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -76,4 +83,15 @@ public class EmployeeController {
 		}
 		return message;
 	}
+
+	@GetMapping(value = "/download")
+	public ResponseEntity<byte[]> downloadExcel() throws IOException {
+		File file = new ClassPathResource("/test.xlsx").getFile();
+		byte[] fileContent = Files.readAllBytes(file.toPath());
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentDispositionFormData("attachment", file.getName());
+		return ResponseEntity.ok().headers(headers).body(fileContent);
+	}
+
 }
